@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: ignite-metrics
+    namespace: victoriametrics
+    labels:
+      app: ignite-metrics
+spec:
+  clusterIP: ""
+  ports:
+  - name: metrics
+    port: 9000
+    protocol: TCP
+    targetPort: 9000

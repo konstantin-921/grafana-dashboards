@@ -1,0 +1,79 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  name: ignite-metrics-sm
+  namespace: victoriametrics
+spec:
+  discoveryRole: endpoints
+  selector:
+    matchLabels:
+      app: ignite-metrics
+  targetLabels: []
+  podTargetLabels: []
+  endpoints:
+    - port: metrics
+      interval: 10s
+      honorLabels: true
+      relabelConfigs:
+      - source_labels: 
+        - __meta_kubernetes_endpoint_address_target_name
+        target_label: instance
+      metricRelabelConfigs:
+      # --- cache ---
+      - source_labels: [__name__]
+        regex: "(cache)_(.+)_(CacheSize)"
+        replacement: "$2"
+        target_label: "cache_name"
+      - source_labels: [__name__]
+        regex: '(cache)_(.+)_(CacheSize)'
+        replacement: '${1}_${3}'
+        target_label: __name__
+      - source_labels: [__name__]
+        regex: "(cache)_(.+)_(CacheHits)"
+        replacement: "$2"
+        target_label: "cache_name"
+      - source_labels: [__name__]
+        regex: '(cache)_(.+)_(CacheHits)'
+        replacement: '${1}_${3}'
+        target_label: __name__
+      - source_labels: [__name__]
+        regex: "(cache)_(.+)_(CacheGets)"
+        replacement: "$2"
+        target_label: "cache_name"
+      - source_labels: [__name__]
+        regex: '(cache)_(.+)_(CacheGets)'
+        replacement: '${1}_${3}'
+        target_label: __name__
+      - source_labels: [__name__]
+        regex: "(cache)_(.+)_(CachePuts)"
+        replacement: "$2"
+        target_label: "cache_name"
+      - source_labels: [__name__]
+        regex: '(cache)_(.+)_(CachePuts)'
+        replacement: '${1}_${3}'
+        target_label: __name__
+      - source_labels: [__name__]
+        regex: "(cache)_(.+)_(CacheMisses)"
+        replacement: "$2"
+        target_label: "cache_name"
+      - source_labels: [__name__]
+        regex: '(cache)_(.+)_(CacheMisses)'
+        replacement: '${1}_${3}'
+        target_label: __name__
+      - source_labels: [__name__]
+        regex: "(cache)_(.+)_(OffHeapEntriesCount)"
+        replacement: "$2"
+        target_label: "cache_name"
+      - source_labels: [__name__]
+        regex: '(cache)_(.+)_(OffHeapEntriesCount)'
+        replacement: '${1}_${3}'
+        target_label: __name__
+      # --- cacheGroups ----
+      - source_labels: [__name__]
+        regex: "(cacheGroups)_(.+)_(TotalAllocatedSize)"
+        replacement: "$2"
+        target_label: "cache_name"
+      - source_labels: [__name__]
+        regex: '(cacheGroups)_(.+)_(TotalAllocatedSize)'
+        replacement: '${1}_${3}'
+        target_label: __name__

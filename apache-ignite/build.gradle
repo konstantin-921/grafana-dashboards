@@ -1,0 +1,7 @@
+dependencies {
+    ...
+    compile "io.opencensus:opencensus-api:0.28.3"
+    compile "io.opencensus:opencensus-impl:0.28.3"
+    compile "io.opencensus:opencensus-exporter-stats-prometheus:0.28.3"
+    compile "io.prometheus:simpleclient_httpserver:0.10.0"
+}
